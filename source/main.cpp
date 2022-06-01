@@ -1,27 +1,21 @@
 #include <iostream>
-#include <cstdlib>
+#include <type_traits>
 #include <fstream>
-#include <sstream>
-#include <array>
 #include <string>
+#include <vector>
 #include <set>
 #include <map>
 
-#include "token.cpp"
+using namespace std;
+
 #include "lexer_table.cpp"
 #include "lexer.cpp"
 
-using namespace std;
-
 int main() {
-    string filename("test.mizu");
-    ifstream input(filename);
+    Lexer lexer;
+    vector<Token> tokens = lexer.analize("test.mizu");
 
-    if (!input.is_open()) {
-        cout << "Error opening file " << filename << '\n';
-        exit(EXIT_FAILURE);
+    for (const auto &token : tokens) {
+        cout << token << '\n';
     }
-
-    Lexer lexer("mizu.lt");
-    lexer.analize("test.mizu");
 }
