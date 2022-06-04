@@ -28,49 +28,47 @@ ostream& operator<<(ostream &os, Token token) {
     return os;
 }
 
-class Lexer {
-    const map<int, const map<char, int>> table = _lexer_table;
-    const set<int> acceptance_states = _acceptance_states;
-    int state = 1;
+vector<Token> tokenize(string filename) {
+    ifstream input(filename);
 
-public:
-    vector<Token> analize(string filename) {
-        ifstream input(filename);
+    if (!input.is_open()) {
+        cerr << "Error: could not open " + filename + '\n';
+        exit(EXIT_FAILURE);
+    }
 
-        if (!input.is_open()) {
-            cerr << "Error: could not open " + filename + '\n';
-            exit(EXIT_FAILURE);
-        }
+    vector<Token> tokens;
+    string literal;
+    unsigned line = 1, column = 1, state = 0;
+    char c;
 
-        vector<Token> tokens;
-        string literal;
-        unsigned line = 1, column = 1;
-        char c;
+    while (input.get(c)) {
+        if (lexer_table.at(state).contains(c)) {
+            state = lexer_table.at(state).at(c);
+            literal += c;
 
-        while (input.get(c)) {
-            if (table.at(state).contains(c)) {
-                state = table.at(state).at(c);
-            } else {
-                literal.clear();
-                state = 1;
-            }
-
+        } else {
             if (acceptance_states.contains(state)) {
                 TokenType type = TokenType::PROC;
-                unsigned start_column = column - literal.size() + 1;
-                tokens.emplace_back(literal, type, line, start_column);
-            } else {
-                literal += c;
+                unsigned start = column - literal.size() + 1;
+                tokens.emplace_back(literal, type, line, start);
             }
 
-            if (c == '\n') {
-                line++;
-                column = 1;
-            } else {
-                column++;
+            literal.clear();
+            state = 0;
+
+            if (lexer_table.at(state).contains(c)) {
+                state = lexer_table.at(state).at(c);
+                literal += c;
             }
         }
 
-        return tokens;
+        if (c == '\n') {
+            line++;
+            column = 1;
+        } else {
+            column++;
+        }
     }
-};
+
+    return tokens;
+}

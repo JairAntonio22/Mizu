@@ -12,10 +12,9 @@ using namespace std;
 #include "lexer.cpp"
 
 int main() {
-    Lexer lexer;
-    vector<Token> tokens = lexer.analize("test.mizu");
+    vector<Token> tokens = tokenize("primes_sieve.mizu");
 
-    for (const auto &token : tokens) {
+    for (const Token &token : tokens) {
         cout << token << '\n';
     }
 }

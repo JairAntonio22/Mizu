@@ -1,5 +1,5 @@
 class DFA:
-    state_count = 1
+    state_count = 0
     table = dict()
     acceptance_states = set()
 
@@ -45,7 +45,7 @@ if __name__ == '__main__':
         'module',
         'proc', 'return', 'defer',
         'if', 'else', 'switch', 'case',
-        'loop', 'break', 'skip',
+        'loop', 'in', 'break', 'skip',
         'not', 'and', 'or', 'true', 'false',
         'int', 'float', 'char', 'bool', 'byte', 'any',
         'enum', 'struct', 'union',
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     dfa.fill_table()
 
     with open(sys.argv[1], 'w') as file:
-        file.write('const map<int, const map<char, int>> _lexer_table = {')
+        file.write('const map<int, const map<char, int>> lexer_table = {')
 
         for state, transitions in DFA.table.items():
             file.write('{')
@@ -77,7 +77,7 @@ if __name__ == '__main__':
             file.write('},')
 
         file.write('};\n')
-        file.write('const set<int> _acceptance_states = {')
+        file.write('const set<int> acceptance_states = {')
 
         for state in DFA.acceptance_states:
             file.write(f'{state},')

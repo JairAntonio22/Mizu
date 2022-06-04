@@ -1,17 +1,5 @@
 module primes_sieve
 
-OperatorType :: enum {
-    Arithmetic, Relational, Bitwise
-}
-
-BinTree :: union {
-    value   any,
-    struct {
-        left    ^BinTree
-        right   ^BinTree
-    }
-}
-
 main :: proc() {
     primes := []int
 

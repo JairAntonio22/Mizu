@@ -2,3 +2,4 @@
 .DS_Store
 build/mizu.dSYM/*
 build/mizu
+source/lexer_table.cpp
