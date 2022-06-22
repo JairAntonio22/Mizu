@@ -1,25 +1,21 @@
-module primes_sieve
+primes := []int
 
-main :: proc() {
-    primes := []int
+primes.push(2)
+primes.push(3)
 
-    primes.push(2)
-    primes.push(3)
+loop k in range(5, 100, 2) {
+    is_prime := true
 
-    loop k in range(5, 100, 2) {
-        is_prime := true
-
-        loop prime in primes {
-            if k % prime == 0 {
-                is_prime = false
-                break
-            }
-        }
-
-        if is_prime {
-            primes.push(k)
+    loop prime in primes {
+        if k % prime == 0 {
+            is_prime = false
+            break
         }
     }
 
-    print(primes)
+    if is_prime {
+        primes.push(k)
+    }
 }
+
+print(primes)

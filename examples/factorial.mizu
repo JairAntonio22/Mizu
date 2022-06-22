@@ -1,0 +1,12 @@
+factorial :: proc(n int) int {
+    if n <= 1 {
+        return 1
+    } else {
+        return n * factorial(n - 1)
+    }
+}
+
+for i in range(0, 10) {
+    ans := factorial(i)
+    print(ans)
+}
